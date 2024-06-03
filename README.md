@@ -34,6 +34,32 @@ results = model.train(data="coco8.yaml", epochs=50)  # Train the model
 
 In this example, I'm training the nano version for 50 epochs. Read more about the YOLOv8 types of algorithms [here](https://docs.ultralytics.com/models/yolov8/#performance-metrics).
 
+If you're using Google Colab, make sure your data is already structured as it's supposed to. Then, you need to upload it to Google Drive. In order to run the training process on Collab, run this code:
+
+```python
+# Connect to Google Drive
+from google.colab import drive
+drive.mount('/content/gdrive') 
+
+# Insert the path to your own directory
+ROOT_DIR = '/content/gdrive/My Drive/Proiect_Yolov8'
+
+!pip install ultralytics
+
+# Run the traiing process
+import os
+from ultralytics import YOLO
+model = YOLO("yolov8x.yaml")  # build a new model from scratch
+results = model.train(data=os.path.join(ROOT_DIR, "coco8.yaml"), epochs=600)  # train the model
+
+# Download the resulted files into your computer
+import shutil
+shutil.make_archive('yolov8_training_results_x_600', 'zip', 'runs/detect/train2')
+from google.colab import files
+files.download('yolov8_training_results_x_600.zip')
+```
+
+
 ## Mistakes I Made in training the model
 
 1. **Not Formatting the Data Correctly**:
@@ -46,7 +72,7 @@ In this example, I'm training the nano version for 50 epochs. Read more about th
    - The labels should have a specific format. If you're creating your labels manually, exporting the labels will be done correctly. However, I created my labels based on the tumor masks and had to format them myself using a Python function. One issue I encountered was for brain images without any tumors, regarded by YOLO as "backgrounds." If you want to include images without the objects you're detecting, leave their corresponding label files completely empty. Initially, I used all 0 values for these labels (0 0.0 0.0 0.0 0.0), and the algorithm considered these as actual parameters for the tumors. To solve this, either leave out the images without the object or leave the label files empty. Including or excluding backgrounds may lead to different model performances, so feel free to experiment.
 
 4. **Not Using Enough Epochs**:
-   - When I first ran my script, I only ran it for one epoch, resulting in no predictions for the validation data. Using too few epochs gives you shallow training, so behavior like this is expected. If you're encountering this problem, try running more epochs. Initially, I used 50, but since I wasn't pleased with the predictions on the validation set, I tried 100, then 300. Beware that using too many epochs may lead to overfitting, so the only real way to evaluate the model is on test data, completely unseen by the algorithm.
+   - When I first ran my script, I only ran it for one epoch, resulting in no predictions for the validation data. Using too few epochs gives you shallow training, so behavior like this is expected. If you're encountering this problem, try running more epochs. Initially, I used 50, but since I wasn't pleased with the predictions on the validation set, I tried 100, 300 and 600. Beware that using too many epochs may lead to overfitting, so the only real way to evaluate the model is on test data, completely unseen by the algorithm.
   
 ## Comparing different models
 
@@ -79,6 +105,6 @@ For medium at 600 epochs, it stopped at 276 and for extra large, it stopped at .
 Since my dataset is only 369 images and only 70% of them were used for training, I'll consider that I have a small dataset. Now let's take a look at the values in the table. 
 
 ## Conclusion
-I think that the smaller models perform best on a small number of epochs, while the large one performs best when more epochs are ran. Looking at the values, I think a slight overfitting occurs for 600 epochs ([the official YOLOv8 detection models](https://github.com/ultralytics/ultralytics/issues/6142) are trained for 500 epochs). The precision and recall values grow much slower as the model size increases, so modifying the number of epochs has a much bigger impact on a small model, than on a large one. If I were to use YOLOv8 in a real-life scenario, I think I would take into consideration the size of the dataset I'm training it for. In my case, I think nano performed best, since I had a small dataset and I only wanted to detect one type of object (class).
+I think that the smaller models perform best on a small number of epochs, while the large one performs best when more epochs are ran. Looking at the values, I think a slight overfitting occurs for 600 epochs (the official YOLOv8 detection models are trained for [500 epochs](https://github.com/ultralytics/ultralytics/issues/6142)). The precision and recall values grow much slower as the model size increases, so modifying the number of epochs has a much bigger impact on a small model, than on a large one. If I were to use YOLOv8 in a real-life scenario, I think I would take into consideration the size of the dataset I'm training it for. In my case, I think nano performed best, since I had a small dataset and I only wanted to detect one type of object (class).
 
 I also included an archive of all the models I trained, so you can analyze them furter or simply use them if you need to.
