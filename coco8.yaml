@@ -1,0 +1,7 @@
+path: E:/facultate/an3/sem2/Proiect_Yolov8/Processed_BraTS2020
+train: images/train
+val: images/val
+
+#Classes:
+names:
+  0: tumor
