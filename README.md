@@ -61,11 +61,19 @@ I trained the nano, medium and extra large models to see the difference between 
 | Nano        | 50        | 0.80     | 0.51          | 0.53       |
 | Nano        | 100       | 0.78     | 0.72          | 0.57       |
 | Nano        | 300       | 0.96     | 0.76          | 0.72       |
+| Nano        | 600       | 0.89     | 0.80          | 0.75       |
 | Medium      | 50        | 0.80     | 0.44          | 0.44       |
 | Medium      | 100       | 0.91     | 0.64          | 0.58       |
 | Medium      | 300       | 0.91     | 0.71          | 0.64       |
 | Extra Large | 50        | 0.69     | 0.44          | 0.41       |
 | Extra Large | 100       | 0.82     | 0.52          | 0.50       |
 | Extra Large | 300       | 0.89     | 0.71          | 0.65       |
+
+For training the nano version at 600 epochs, i got this message:
+```bash
+EarlyStopping: Training stopped early as no improvement observed in last 100 epochs. Best results observed at epoch 372, best model saved as best.pt.
+```
+I find it interesting that YOLO stops the training process when no progress is detected.
+
 
 Since my dataset is only 369 images and only 70% of them were used for training, I'll consider that I have a small dataset. Now let's take a look at the values in the table. 
