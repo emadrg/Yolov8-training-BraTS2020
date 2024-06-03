@@ -46,7 +46,7 @@ ROOT_DIR = '/content/gdrive/My Drive/Proiect_Yolov8'
 
 !pip install ultralytics
 
-# Run the traiing process
+# Run the training process
 import os
 from ultralytics import YOLO
 model = YOLO("yolov8x.yaml")  # build a new model from scratch
