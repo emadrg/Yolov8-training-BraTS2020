@@ -2,12 +2,9 @@
 
 In this repo, I'll present the process of training a YOLOv8 model using the BraTS2020 dataset, focusing on comparing the nano, medium and extra large version.
 
-## Training Set
+## Understanding the Training Set - EDA
 
-I used the BraTS2020 dataset for this project, which you can download [here](https://www.kaggle.com/datasets/awsaf49/brats20-dataset-training-validation). This dataset includes MRI scans of brains from different patients. I only used the training set (BraTS2020_TrainingData), as the validation set didn't have any tumor masks.
-
-## Understanding the Training Set
-
+I used the BraTS2020 dataset for this project, which you can download [here](https://www.kaggle.com/datasets/awsaf49/brats20-dataset-training-validation). This dataset includes MRI scans of brains from different patients, some having brain tumors, and the masks corresponding to the tumors. I only used the training set (BraTS2020_TrainingData), as the validation set didn't have any tumor masks.
 The data is formatted into 369 directories, one for each patient. Each patient directory contains multiple MRI scans of their brain, as well as a mask (the seg file) of the tumor. I decided to only use the "flair" images because they have the best contrast, making the tumor most visible. Therefore, for training our YOLOv8 model, we will only use the "flair" and the "seg" files. You can use another type of image instead of "flair," but make sure to use the same type for all patients to maintain consistent training.
 
 ## Converting the Raw Data into the YOLOv8 Format
@@ -25,7 +22,7 @@ This step is crucial since the YOLOv8 algorithm expects a specific structure for
 
 ## Running the Algorithm
 
-After formatting your data, you can start the training process. You will need a .yaml file (mine is named coco8.yaml). This file should have a specific structure where the path to the data and detection classes are specified. Modify this to fit your dataset but don't change the structure. Then, run these lines:
+After formatting your data, you can start the training process. All my code is at `brain_tumor_yolov8.py`. You will need a .yaml file (mine is named `coco8.yaml`). This file should have a specific structure where the path to the data and detection classes are specified. Modify this to fit your dataset but don't change the structure. Then, run these lines:
 
 ```python
 from ultralytics import YOLO
@@ -65,15 +62,23 @@ I trained the nano, medium and extra large models to see the difference between 
 | Medium      | 50        | 0.80     | 0.44          | 0.44       |
 | Medium      | 100       | 0.91     | 0.64          | 0.58       |
 | Medium      | 300       | 0.91     | 0.71          | 0.64       |
+| Medium      | 600       | 0.93     | 0.69          | 0.57       |
 | Extra Large | 50        | 0.69     | 0.44          | 0.41       |
 | Extra Large | 100       | 0.82     | 0.52          | 0.50       |
 | Extra Large | 300       | 0.89     | 0.71          | 0.65       |
+| Extra Large | 600       | 0.00     | 0.00          | 0.00       |
 
-For training the nano version at 600 epochs, i got this message:
+For training the nano version at 600 epochs, I got this message:
 ```bash
 EarlyStopping: Training stopped early as no improvement observed in last 100 epochs. Best results observed at epoch 372, best model saved as best.pt.
 ```
-I find it interesting that YOLO stops the training process when no progress is detected.
+This stopped the training process at 472 epochs, instead of 600. I find it interesting that YOLO stops the training process when no progress is detected. Read [here](https://github.com/ultralytics/ultralytics/issues/4521) about Early Stopping.
+For medium at 600 epochs, it stopped at 276 and for extra large, it stopped at .
 
 
 Since my dataset is only 369 images and only 70% of them were used for training, I'll consider that I have a small dataset. Now let's take a look at the values in the table. 
+
+## Conclusion
+I think that the smaller models perform best on a small number of epochs, while the large one performs best when more epochs are ran. Looking at the values, I think a slight overfitting occurs for 600 epochs ([the official YOLOv8 detection models](https://github.com/ultralytics/ultralytics/issues/6142) are trained for 500 epochs). The precision and recall values grow much slower as the model size increases, so modifying the number of epochs has a much bigger impact on a small model, than on a large one. If I were to use YOLOv8 in a real-life scenario, I think I would take into consideration the size of the dataset I'm training it for. In my case, I think nano performed best, since I had a small dataset and I only wanted to detect one type of object (class).
+
+I also included an archive of all the models I trained, so you can analyze them furter or simply use them if you need to.
