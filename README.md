@@ -79,7 +79,7 @@ files.download('yolov8_training_results_x_600.zip')
 I trained the nano, medium and extra large models to see the difference between them and how the results would be influenced by both the model type, as well as the number of epochs used. For me, [Google Colab](https://docs.ultralytics.com/models/yolov8/#performance-metrics) was really helpful for running YOLO, since my laptop isn't very fast. I'm doing the comparison between the different models by looking at the [Performance metrics](https://docs.ultralytics.com/guides/yolo-performance-metrics/) resulted after the training process. In order to visualize everything better, I'll be storing the relevant data in a table. 
 
 
-| Model       | Nr epochs | Accuracy | Avg Precision | Avg Recall |
+| Model       | Nr epochs | TP Value | Avg Precision | Avg Recall |
 |-------------|-----------|----------|---------------|------------|
 | Nano        | 50        | 0.80     | 0.51          | 0.53       |
 | Nano        | 100       | 0.78     | 0.72          | 0.57       |
