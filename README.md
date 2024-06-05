@@ -42,7 +42,7 @@ from google.colab import drive
 drive.mount('/content/gdrive') 
 
 # Insert the path to your own directory
-ROOT_DIR = '/content/gdrive/My Drive/Proiect_Yolov8'
+ROOT_DIR = '/content/gdrive/My Drive/path/to/your/directory'
 
 !pip install ultralytics
 
@@ -54,9 +54,9 @@ results = model.train(data=os.path.join(ROOT_DIR, "coco8.yaml"), epochs=600)  # 
 
 # Download the resulted files into your computer
 import shutil
-shutil.make_archive('yolov8_training_results_x_600', 'zip', 'runs/detect/train2')
+shutil.make_archive('yolov8_training_results', 'zip', 'runs/detect/train2')
 from google.colab import files
-files.download('yolov8_training_results_x_600.zip')
+files.download('yolov8_training_results.zip')
 ```
 
 
@@ -76,35 +76,45 @@ files.download('yolov8_training_results_x_600.zip')
   
 ## Comparing different models
 
-I trained the nano, medium and extra large models to see the difference between them and how the results would be influenced by both the model type, as well as the number of epochs used. For me, [Google Colab](https://docs.ultralytics.com/models/yolov8/#performance-metrics) was really helpful for running YOLO, since my laptop isn't very fast. I'm doing the comparison between the different models by looking at the [Performance metrics](https://docs.ultralytics.com/guides/yolo-performance-metrics/) resulted after the training process. In order to visualize everything better, I'll be storing the relevant data in a table. 
+I trained the nano, medium and extra large models to see the difference between them and how the results would be influenced by both the model type, as well as the number of epochs used. For 300 epochs, I also changed the model size from default 640 to 320, bu including "imgsz=320" int the training line. For me, [Google Colab](https://docs.ultralytics.com/models/yolov8/#performance-metrics) was really helpful for running YOLO, since my laptop isn't very fast. I'm doing the comparison between the different models by looking at the [Performance metrics](https://docs.ultralytics.com/guides/yolo-performance-metrics/) resulted after the training process. In order to visualize everything better, I'll be storing the relevant data in a table. 
+Note: Google Colab only alows a limited time for running the algorithms, so I wasn't able to train the extra large model for 600, since it took too much time, so running it on your personal computer might be a better solution.
 
 
-| Model       | Nr epochs | TP Value | Avg Precision | Avg Recall |
-|-------------|-----------|----------|---------------|------------|
-| Nano        | 50        | 0.80     | 0.51          | 0.53       |
-| Nano        | 100       | 0.78     | 0.72          | 0.57       |
-| Nano        | 300       | 0.96     | 0.76          | 0.72       |
-| Nano        | 600       | 0.89     | 0.80          | 0.75       |
-| Medium      | 50        | 0.80     | 0.44          | 0.44       |
-| Medium      | 100       | 0.91     | 0.64          | 0.58       |
-| Medium      | 300       | 0.91     | 0.71          | 0.64       |
-| Medium      | 600       | 0.93     | 0.69          | 0.57       |
-| Extra Large | 50        | 0.69     | 0.44          | 0.41       |
-| Extra Large | 100       | 0.82     | 0.52          | 0.50       |
-| Extra Large | 300       | 0.89     | 0.71          | 0.65       |
-| Extra Large | 600       | 0.00     | 0.00          | 0.00       |
+| Model       | Nr epochs | TP Value | Avg Precision | Avg Recall | ImgSz |
+|-------------|-----------|----------|---------------|------------|-------|
+| Nano        | 50        | 0.80     | 0.51          | 0.53       |640    |
+| Nano        | 100       | 0.78     | 0.72          | 0.57       |640    |
+| Nano        | 300       | 0.96     | 0.76          | 0.72       |640    |
+| Nano        | 300       | 0.93     | 0.57          | 0.49       |320    |
+| Nano        | 600       | 0.89     | 0.80          | 0.75       |640    |
+| Medium      | 50        | 0.80     | 0.44          | 0.44       |640    |
+| Medium      | 100       | 0.91     | 0.64          | 0.58       |640    |
+| Medium      | 300       | 0.91     | 0.71          | 0.64       |640    |
+| Medium      | 300       | 0.91     | 0.79          | 0.72       |320    |
+| Medium      | 600       | 0.93     | 0.69          | 0.57       |640    |
+| Extra Large | 50        | 0.69     | 0.44          | 0.41       |640    |
+| Extra Large | 100       | 0.82     | 0.52          | 0.50       |640    |
+| Extra Large | 300       | 0.89     | 0.71          | 0.65       |640    |
+| Extra Large | 300       | 0.93     | 0.81          | 0.75       |320    |
+
 
 For training the nano version at 600 epochs, I got this message:
 ```bash
 EarlyStopping: Training stopped early as no improvement observed in last 100 epochs. Best results observed at epoch 372, best model saved as best.pt.
 ```
-This stopped the training process at 472 epochs, instead of 600. I find it interesting that YOLO stops the training process when no progress is detected. Read [here](https://github.com/ultralytics/ultralytics/issues/4521) about Early Stopping.
-For medium at 600 epochs, it stopped at 276 and for extra large, it stopped at .
-
+This stopped the training process at 472 epochs, instead of 600, and for medium it stopped at 276. I find it interesting that YOLO stops the training process when no progress is detected. Read [here](https://github.com/ultralytics/ultralytics/issues/4521) about Early Stopping. 
 
 Since my dataset is only 369 images and only 70% of them were used for training, I'll consider that I have a small dataset. Now let's take a look at the values in the table. 
 
 ## Conclusion
+Since my dataset is only 369 images and only 70% of them were used for training, I'll consider that I have a small dataset. Now let's take a look at the values in the table. 
 I think that the smaller models perform best on a small number of epochs, while the large one performs best when more epochs are ran. Looking at the values, I think a slight overfitting occurs for 600 epochs (the official YOLOv8 detection models are trained for [500 epochs](https://github.com/ultralytics/ultralytics/issues/6142)). The precision and recall values grow much slower as the model size increases, so modifying the number of epochs has a much bigger impact on a small model, than on a large one. If I were to use YOLOv8 in a real-life scenario, I think I would take into consideration the size of the dataset I'm training it for. In my case, I think nano performed best, since I had a small dataset and I only wanted to detect one type of object (class).
+
+Furthermore, I think that using all the models trained for an image from the test batch would be useful. I'm using the same image for all of them, so I could have a fair comparison. The code for using the models and plotting the results is at `predict.py`.
+
+![image](https://github.com/emadrg/Yolov8-training-BraTS2020/assets/115634320/167c779f-f9c5-4bc1-b780-24d4264238d8)
+
+I'm satisfied with the predictions. The first thing that we're interested in is that all models recognized the tumor, so in this case all models performed well. The only difference is the size and shape of the bounding box. In some cases, the bounding box is larger than it should be (xlarge_300), and in other cases it is smaller (medium_50). However, I think that all models made an overall good prediction.
+
 
 I also included an archive of all the models I trained, so you can analyze them furter or simply use them if you need to.
