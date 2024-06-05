@@ -115,6 +115,7 @@ Furthermore, I think that using all the models trained for an image from the tes
 ![image](https://github.com/emadrg/Yolov8-training-BraTS2020/assets/115634320/167c779f-f9c5-4bc1-b780-24d4264238d8)
 
 I'm satisfied with the predictions. The first thing that we're interested in is that all models recognized the tumor, so in this case all models performed well. The only difference is the size and shape of the bounding box. In some cases, the bounding box is larger than it should be (xlarge_300), and in other cases it is smaller (medium_50). However, I think that all models made an overall good prediction.
-
+So the question is, which model performed better?
+In this case, I'd say that I prefer the nano version, which I didn't expect at all. I think this has to do with the size of my dataset being small, therefore the nano algorithm performed better. For the medium and extra large model, changing the image size from 640 to 320 actually gave me a better True Positive value, as well as better precision and recall values. For the nano version, I think that keeping the default image size of 640 is better, judging by the values in the table. If I were to use YOLOv8 in real life, I think I would chose the model version taking into consideration the size of my dataset and the number of objects I want to detect.
 
 I also included an archive of all the models I trained, so you can analyze them furter or simply use them if you need to.
