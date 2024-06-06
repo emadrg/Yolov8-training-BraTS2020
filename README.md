@@ -39,19 +39,23 @@ If you're using Google Colab, make sure your data is already structured as it's 
 ```python
 # Connect to Google Drive
 from google.colab import drive
-drive.mount('/content/gdrive') 
-
+drive.mount('/content/gdrive')
+```
+```python
 # Insert the path to your own directory
 ROOT_DIR = '/content/gdrive/My Drive/path/to/your/directory'
-
+```
+```python
 !pip install ultralytics
-
+```
+```python
 # Run the training process
 import os
 from ultralytics import YOLO
 model = YOLO("yolov8x.yaml")  # build a new model from scratch
 results = model.train(data=os.path.join(ROOT_DIR, "coco8.yaml"), epochs=600)  # train the model
-
+```
+```python
 # Download the resulted files into your computer
 import shutil
 shutil.make_archive('yolov8_training_results', 'zip', 'runs/detect/train2')
