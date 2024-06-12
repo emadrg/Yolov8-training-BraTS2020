@@ -129,4 +129,5 @@ I also included an archive of all the models I trained, so you can analyze them 
 
 In order to make my project actually usable, I created a user interface using the library [tkinter](https://www.tutorialspoint.com/file-explorer-in-python-using-tkinter). Nothing complicated here, it just prompts the user with a page, waits for the user to select an image from their computer and then makes a prediction for that image. I didn't focus on the design of the page, but rather on the basic functionality of being able to actually input an image in an easier amnner. The code for this added functionality can be found at `predict_ui.py`.
 Here's how the popup looks after the prediction has been made: 
+
 ![image](https://github.com/emadrg/Yolov8-training-BraTS2020/assets/115634320/bf7f33ea-fba0-45e2-96fd-fa85921a8b7f)
