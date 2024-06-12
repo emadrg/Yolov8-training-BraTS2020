@@ -124,3 +124,9 @@ In this case, I'd say that I prefer the medium version, which I didn't expect at
 For the medium and extra large model, changing the image size from 640 to 320 actually gave me a better True Positive value, as well as better precision and recall values. For the nano version, I think that keeping the default image size of 640 is better, judging by the values in the table. If I were to use YOLOv8 in real life, I think I would chose the model version taking into consideration the size of my dataset and the number of objects I want to detect.
 
 I also included an archive of all the models I trained, so you can analyze them furter or simply use them if you need to.
+
+## User interface
+
+In order to make my project actually usable, I created a user interface using the library [tkinter](https://www.tutorialspoint.com/file-explorer-in-python-using-tkinter). Nothing complicated here, it just prompts the user with a page, waits for the user to select an image from their computer and then makes a prediction for that image. I didn't focus on the design of the page, but rather on the basic functionality of being able to actually input an image in an easier amnner. The code for this added functionality can be found at `predict_ui.py`.
+Here's how the popup looks after the prediction has been made: 
+![image](https://github.com/emadrg/Yolov8-training-BraTS2020/assets/115634320/bf7f33ea-fba0-45e2-96fd-fa85921a8b7f)
