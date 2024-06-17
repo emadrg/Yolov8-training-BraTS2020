@@ -109,15 +109,13 @@ EarlyStopping: Training stopped early as no improvement observed in last 100 epo
 This stopped the training process at 472 epochs, instead of 600, and for medium it stopped at 276. I find it interesting that YOLO stops the training process when no progress is detected. Read [here](https://github.com/ultralytics/ultralytics/issues/4521) about Early Stopping. 
 
 Since my dataset is only 369 images and only 70% of them were used for training, I'll consider that I have a small dataset. Now let's take a look at the values in the table. 
-
-## Conclusion
-Since my dataset is only 369 images and only 70% of them were used for training, I'll consider that I have a small dataset. Now let's take a look at the values in the table. 
 I think that the smaller models perform best on a small number of epochs, while the large one performs best when more epochs are ran. Looking at the values, I think a slight overfitting occurs for 600 epochs (the official YOLOv8 detection models are trained for [500 epochs](https://github.com/ultralytics/ultralytics/issues/6142)). The precision and recall values grow much slower as the model size increases, so modifying the number of epochs has a much bigger impact on a small model, than on a large one. If I were to use YOLOv8 in a real-life scenario, I think I would take into consideration the size of the dataset I'm training it for. In my case, I think nano or medium performed best, since I had a small dataset and I only wanted to detect one type of object (class).
 
 Furthermore, I think that using all the models trained for an image from the test batch would be useful. I'm using the same image for all of them, so I could have a fair comparison. The code for using the models and plotting the results is at `predict.py`.
 
 ![image](https://github.com/emadrg/Yolov8-training-BraTS2020/assets/115634320/167c779f-f9c5-4bc1-b780-24d4264238d8)
 
+## Conclusion
 I'm satisfied with the predictions. The first thing that we're interested in is that all models recognized the tumor, so in this case all models performed well. The only difference is the size and shape of the bounding box. In some cases, the bounding box is larger than it should be (xlarge_300), and in other cases it is smaller (medium_50). However, I think that all models made an overall good prediction.
 So the question is, which model performed better?
 In this case, I'd say that I prefer the medium version, which I didn't expect at all. I think this has to do with the size of my dataset being small, therefore the medium algorithm performed better. However, it's hard to exactly say that one model is better than the other. Looking at the probabilities next to the bounding boxes, the Extra large version performs better than the nano one, but nano is better at creating a bounding box of the desired size, so I think that you need to adjust the model you're using based on what's more important to you in terms of performance. Taking all of this into consideration, I think that the medium model is the perfect balance between creating the bounding box and having a good probability for it. 
