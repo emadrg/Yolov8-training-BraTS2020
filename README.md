@@ -13,7 +13,7 @@ The YOLOv8 algorithm works with images and bounding boxes. A bounding box is a r
 
 ### Steps for Conversion:
 
-1. Convert all 369 .nii flair images to .jpg as YOLOv8 cannot understand .nii files.
+1. Convert all 369 .nii flair images to .jpg as YOLOv8 cannot understand .nii file (see python file).
 2. Create bounding box files based on the masks. I created the bounding boxes by checking whether the pixels in the mask file were white.
 
 ## Formatting the Data
