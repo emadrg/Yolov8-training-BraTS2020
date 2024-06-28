@@ -84,7 +84,9 @@ I trained the nano, medium and extra large models to see the difference between 
 Note: Google Colab only alows a limited time for running the algorithms, so I wasn't able to train the extra large model for 600, since it took too much time, so running it on your personal computer might be a better solution.
 As a reminder, since we're going to evaluate these values, the formulas for the Precision and Recall paramaters are the following:
 **Precision**:
-Precision = /frac{TP}{TP + FP}
+$$
+Precision = \frac{TP}{TP + FP}
+$$
 
 Where:
 - \( TP \) (True Positives) is the number of correct positive predictions.
@@ -93,8 +95,9 @@ Where:
 Precision measures the accuracy of positive predictions. It answers the question: "Of all the instances that were predicted as positive, how many were actually positive?"
 
 **Recall**:
-Recall = /frac{TP}{TP + FN}
-
+$$
+Recall = \frac{TP}{TP + FN}
+$$
 Where:
 - \( TP \) (True Positives) is the number of correct positive predictions.
 - \( FN \) (False Negatives) is the number of positive instances that were incorrectly predicted as negative.
