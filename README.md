@@ -82,6 +82,22 @@ files.download('yolov8_training_results.zip')
 
 I trained the nano, medium and extra large models to see the difference between them and how the results would be influenced by both the model type, as well as the number of epochs used. For 300 epochs, I also changed the model size from default 640 to 320, bu including "imgsz=320" int the training line. For me, [Google Colab](https://docs.ultralytics.com/models/yolov8/#performance-metrics) was really helpful for running YOLO, since my laptop isn't very fast. I'm doing the comparison between the different models by looking at the [Performance metrics](https://docs.ultralytics.com/guides/yolo-performance-metrics/) resulted after the training process. In order to visualize everything better, I'll be storing the relevant data in a table. 
 Note: Google Colab only alows a limited time for running the algorithms, so I wasn't able to train the extra large model for 600, since it took too much time, so running it on your personal computer might be a better solution.
+As a reminder, since we're going to evaluate these values, the formulas for the Precision and Recall paramaters are the following:
+**Precision**:
+\[ \text{Precision} = \frac{TP}{TP + FP} \]
+
+Where:
+- \( TP \) (True Positives) is the number of correct positive predictions.
+- \( FP \) (False Positives) is the number of incorrect positive predictions.
+
+Precision measures the accuracy of positive predictions. It answers the question: "Of all the instances that were predicted as positive, how many were actually positive?"
+
+**Recall**:
+\[ \text{Recall} = \frac{TP}{TP + FN} \]
+
+Where:
+- \( TP \) (True Positives) is the number of correct positive predictions.
+- \( FN \) (False Negatives) is the number of positive instances that were incorrectly predicted as negative.
 
 
 | Model       | Nr epochs | TP Value | Avg Precision | Avg Recall | ImgSz |
